@@ -108,3 +108,11 @@ $env:FLASK_QUESTDB_URL='<your_questdb_url>'; $env:FLASK_REDIRECT_URI='<your_redi
 $env:PORT=9000; python oidc.py
 ```
 
+## Querying the database
+
+Try executing this sample query (replace port accordingly):
+```
+http://localhost:9000/query?query=show%20tables
+```
+
+The app should redirect you to login and, after the workflow is approved, you can execute your query
