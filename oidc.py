@@ -43,6 +43,8 @@ def handle_callback(code):
     if 'access_token' in token_json:
         tokens['access_token'] = token_json['access_token']
         tokens['refresh_token'] = token_json.get('refresh_token')
+        if app.debug == True:
+            print(tokens['access_token'])
         if 'original_query' in session:
             original_query = session.pop('original_query')
             return redirect(f"/query?query={original_query}")
@@ -79,7 +81,8 @@ def query():
     return jsonify(response.json())
 
 def refresh_access_token(refresh_token):
-    print("Refreshing access token")
+    if app.debug == True:
+        print("Refreshing access token")
     token_response = requests.post(app.config['TOKEN_URL'], data={
         'grant_type': 'refresh_token',
         'refresh_token': refresh_token,
@@ -89,6 +92,8 @@ def refresh_access_token(refresh_token):
     token_json = token_response.json()
     tokens['access_token'] = token_json['access_token']
     tokens['refresh_token'] = token_json.get('refresh_token', refresh_token)
+    if app.debug == True:
+        print(tokens['access_token'])
 
 if __name__ == "__main__":
     app.run(port=app.config['PORT'], debug=True)
